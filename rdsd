@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# chkconfig: 2345 64 35
+# description: starts and stops the RDS daemon.
+
+. /etc/init.d/functions
+
+prog_name="startup.py"
+prog_path="/cs/auto_prepare/"
+prog_user=""
+
+[ -x "${prog_path}" ] || exit 1
+#[ -r "${prog_conf}" ] || exit 1
+
+start(){
+  echo "RDS daemon start..." 
+  python ${prog_path}${prog_name}
+}
+
+stop(){
+  echo "RDS daemon stop..."
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    sleep 1
+    start
+    ;;
+  status)
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop|restart|status}"
+    exit 2  
+esac
+
+exit $?
